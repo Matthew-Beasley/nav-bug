@@ -3,39 +3,37 @@ import tt from '@tomtom-international/web-sdk-maps';
 
 const Map = () => {
   let map;
-
-  const centerMap = (position) => {
-    map.flyTo({
+  const createMap = (position) => {
+    map = tt.map({
+      key: 'lhdNJtemDRfjctoDTw5DqAYs2qr9uloY',
+      container: 'map',
+      style: 'tomtom://vector/1/basic-main',
       center: {
         lng: position.coords.longitude,
         lat: position.coords.latitude
       },
-      zoom: 14 // you can also specify zoom level
-    })
-  }
-
-  const getCoords = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      centerMap(position);
-    });
-  }
-
-  useEffect(() => {
-    map = tt.map({
-      key: 'lhdNJtemDRfjctoDTw5DqAYs2qr9uloY',
-      container: 'map',
-      style: 'tomtom://vector/1/basic-main'
+      zoom: 10
     });
     map.addControl(new tt.FullscreenControl())
     map.addControl(new tt.NavigationControl())
-  }, []);
+  }
+
+  const getCoords = () => {
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject/*, options*/);
+    });
+  }
 
   useEffect(() => {
     getCoords()
-  }, [map]);
+      .then(pos => createMap(pos));
+  }, []);
 
   return (
-    <div id="map" />
+    <div id="map-copntainer">
+      {!map && <h2>Fetching Map</h2>}
+      <div id="map" />
+    </div>
   )
 }
 
