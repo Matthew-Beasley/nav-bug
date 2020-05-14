@@ -5,41 +5,41 @@ const Map = () => {
   let position;
   let map;
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(_position => {
-      position = _position;
-      console.log(position)
+  //pk.ddaf8b479ce97d4e6ebf87d1605ee4ba
+  const createMap = () => {
+    //Add your LocationIQ Maps Access Token here (not the API token!)
+    locationiq.key = 'pk.a5c3fbf2119bfb2275b62eddbccd76b3';
+    //Define the map and configure the map's theme
+    var map = new mapboxgl.Map({
+      container: 'map',
+      attributionControl: false, //need this to show a compact attribution icon (i) instead of the whole text
+      zoom: 12,
+      center: [-122.42, 37.779]
     });
+
+    //Define layers you want to add to the layer controls; the first element will be the default layer
+    var layerStyles = {
+      Streets: 'streets/vector',
+      Satellite: 'earth/raster',
+      Hybrid: 'hybrid/vector',
+      Dark: 'dark/vector',
+      Light: 'light/vector'
+    };
+
+    map.addControl(new locationiqLayerControl({
+      key: locationiq.key,
+      layerStyles: layerStyles
+    }), 'top-left');
+  }
+
+  useEffect(() => {
+    createMap();
+   // navigator.geolocation.getCurrentPosition(_position => {
+   //   position = _position;
+   //   console.log(position)
+    //});
   }, [])
 
-  useEffect(() => {
-    map = tt.map({
-      key: 'lhdNJtemDRfjctoDTw5DqAYs2qr9uloY',
-      container: 'map',
-      style: 'tomtom://vector/1/basic-main'
-    });
-
-    map.addControl(new tt.FullscreenControl())
-    map.addControl(new tt.NavigationControl())
-  }, [position]);
-
-  useEffect(() => {
-    /*
-    navigator.geolocation.getCurrentPosition(_position => {
-      position = _position;
-      console.log(position)
-    });
-    */
-    map.on('load', () => {
-      map.flyTo({
-        center: {
-          lng: position.coords.longitude,
-          lat: position.coords.latitude
-        },
-        zoom: 14 // you can also specify zoom level
-      })
-    })
-  }, [map]);
 
   return (
     <div id="map" />
