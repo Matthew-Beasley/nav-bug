@@ -2,47 +2,38 @@ import React, { useState, useEffect } from 'react';
 import tt from '@tomtom-international/web-sdk-maps';
 
 const Map = () => {
-  let position;
   let map;
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(_position => {
-      position = _position;
-      console.log(position)
-    });
-  }, [])
-
-  useEffect(() => {
+  const createMap = (position) => {
     map = tt.map({
       key: 'lhdNJtemDRfjctoDTw5DqAYs2qr9uloY',
       container: 'map',
-      style: 'tomtom://vector/1/basic-main'
+      style: 'tomtom://vector/1/basic-main',
+      center: {
+        lng: position.coords.longitude,
+        lat: position.coords.latitude
+      },
+      zoom: 10
     });
-
     map.addControl(new tt.FullscreenControl())
     map.addControl(new tt.NavigationControl())
-  }, [position]);
+  }
+
+  const getCoords = () => {
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject/*, options*/);
+    });
+  }
 
   useEffect(() => {
-    /*
-    navigator.geolocation.getCurrentPosition(_position => {
-      position = _position;
-      console.log(position)
-    });
-    */
-    map.on('load', () => {
-      map.flyTo({
-        center: {
-          lng: position.coords.longitude,
-          lat: position.coords.latitude
-        },
-        zoom: 14 // you can also specify zoom level
-      })
-    })
-  }, [map]);
+    getCoords()
+      .then(pos => createMap(pos));
+  }, []);
 
   return (
-    <div id="map" />
+    <div id="map-copntainer">
+      {!map && <h2>Fetching Map</h2>}
+      <div id="map" />
+    </div>
   )
 }
 
