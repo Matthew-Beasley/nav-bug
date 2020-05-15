@@ -1,11 +1,60 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
 body { 
   margin:0px; 
   padding:0px; 
+  height: 100%;
 }
-            
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+#app-container {
+  min-height: 840px; /* make this responsive */
+  width: 100%;
+}
+
+#home-container {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 840px;
+  width: 100%;
+  background-color: rgb(184, 241, 177);
+}
+
+.home-navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 8rem;
+  align-items: center;
+}
+
+.home-navbar button {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 6px;
+  width: 8rem;
+  height: 2.5rem;
+  font-size: 1rem;
+  margin: 10px;
+}
+
+#ladybug-img {
+  width: 100%;
+}
+
 #map { 
   position:absolute; 
   top:0px; 
-  bottom:50px; 
+  bottom:70px; 
   width:100%; 
 }
