@@ -28,12 +28,8 @@ const Map = () => {
 
   const fly = (position) => {
     const { coords } = position;
-    //map.setCenter([coords.longitude, coords.latitude]);
-    //map.setZoom(14);
-    map.flyTo({
-      center: { lat: coords.latitude, lng: coords.longitude },
-      zoom: 13
-    })
+    map.setCenter([coords.longitude, coords.latitude]);
+    map.setZoom(14);
   }
 
   useEffect(() => {
