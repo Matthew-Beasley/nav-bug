@@ -35,6 +35,7 @@ body {
   flex-direction: row;
   justify-content: space-around;
   height: 8rem;
+  width: 90%;
   align-items: center;
 }
 
@@ -45,7 +46,7 @@ body {
   width: 8rem;
   height: 2.5rem;
   font-size: 1rem;
-  margin: 10px;
+  margin: 5px;
 }
 
 #ladybug-img {
@@ -55,6 +56,27 @@ body {
 #map { 
   position:absolute; 
   top:0px; 
-  bottom:70px; 
+  bottom: 3rem; 
   width:100%; 
+}
+
+.map-navbar {
+  position: absolute;
+  bottom: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 6rem;
+  width: 100%;
+  align-items: center;
+  background-color: rgb(184, 241, 177);
+}
+
+.map-navbar button {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 6px;
+  width: 8rem;
+  height: 2.5rem;
+  font-size: 1rem;
 }
