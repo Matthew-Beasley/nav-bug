@@ -3,30 +3,39 @@ import tt from '@tomtom-international/web-sdk-maps';
 
 const Map = () => {
   let map;
-  const createMap = (position) => {
+  const createMap = () => {
     map = tt.map({
       key: 'lhdNJtemDRfjctoDTw5DqAYs2qr9uloY',
       container: 'map',
-      style: 'tomtom://vector/1/basic-main',
-      center: {
-        lng: position.coords.longitude,
-        lat: position.coords.latitude
-      },
-      zoom: 10
+      //style: 'tomtom://vector/1/basic-main',
+      basePath: 'sdk',
+      source: 'vector',
     });
     map.addControl(new tt.FullscreenControl())
     map.addControl(new tt.NavigationControl())
   }
 
   const getCoords = () => {
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
     return new Promise(function (resolve, reject) {
-      navigator.geolocation.getCurrentPosition(resolve, reject/*, options*/);
+      navigator.geolocation.getCurrentPosition(resolve, reject, options);
     });
   }
 
+  const fly = (position) => {
+    const { coords } = position;
+    map.setCenter([coords.longitude, coords.latitude]);
+    map.setZoom(14);
+  }
+
   useEffect(() => {
+    createMap();
     getCoords()
-      .then(pos => createMap(pos));
+      .then(pos => fly(pos));
   }, []);
 
   return (
