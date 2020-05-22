@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import tt from '@tomtom-international/web-sdk-maps';
 import { modes } from '../constants';
+import { getCoords } from '../Utilities';
 
-const Map = ({ history }) => {
+const Map = ({ history, positionState, setPositionState }) => {
   let map;
   const mapElementRef = useRef();
 
-  const createMap = (position, mode) => {
+  const createMap = (location, mode) => {
     map = tt.map({
       key: 'lhdNJtemDRfjctoDTw5DqAYs2qr9uloY',
       container: 'map',
@@ -16,7 +17,7 @@ const Map = ({ history }) => {
     });
     map.addControl(new tt.FullscreenControl())
     map.addControl(new tt.NavigationControl())
-    const { coords } = position;
+    const { coords } = location;
     map.on('load', () => {
       map.flyTo({
         center: {
@@ -28,18 +29,7 @@ const Map = ({ history }) => {
     })
   }
 
-  const getCoords = () => {
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 3000
-    };
-    return new Promise(function (resolve, reject) {
-      navigator.geolocation.getCurrentPosition(resolve, reject, options);
-    });
-  }
-
-  const changeMode = async (style) => {
+  const getPosition = async (style) => {
     map = null;
     mapElementRef.current.innerHTML = '';
     console.log(mapElementRef)
@@ -49,16 +39,22 @@ const Map = ({ history }) => {
 
   useEffect(() => {
     getCoords()
-      .then(pos => createMap(pos));
-  }, []);
+      .then(pos => setPositionState(pos));
+  },[]);
+
+  useEffect(() => {
+    if (positionState) {
+      createMap(positionState, modes.V_BASIC_MAIN);
+    }
+  }, [positionState]);
 
   return (
     <div id="map-copntainer">
       {!map && <h2>Fetching Map</h2>}
       <div ref={mapElementRef} id="map" />
       <div className="map-navbar">
-        <button type="button" onClick={() => changeMode(modes.V_BASIC_MAIN)}>Street Map</button>
-        <button type="button" onClick={() => changeMode(modes.V_BASIC_NIGHT)}>Dark Street Map</button>
+        <button type="button" onClick={() => getPosition(modes.V_BASIC_MAIN)}>Street Map</button>
+        <button type="button" onClick={() => getPosition(modes.V_BASIC_NIGHT)}>Dark Street Map</button>
         <button type="button" onClick={() => history.push('/directions')}>Directions</button>
       </div>
     </div>

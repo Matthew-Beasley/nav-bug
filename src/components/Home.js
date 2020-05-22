@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { modes } from '../constants';
 
 const Home = ({ history, goToMap }) => {
-  
+
   return (
     <div id="home-container">
       <h1>Nav Bug</h1>
