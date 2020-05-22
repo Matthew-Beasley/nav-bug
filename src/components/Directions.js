@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import tt, { services } from '@tomtom-international/web-sdk-services';
+import tt from '@tomtom-international/web-sdk-services';
 import { getCoords } from '../Utilities';
 
 const Directions = ({ positionState, setPositionState }) => {
@@ -7,8 +7,6 @@ const Directions = ({ positionState, setPositionState }) => {
   const [startAddress, setStartAddress] = useState();
   const [directions, setDirections] = useState([]);
   let destCoords;
-
-  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 
   const handleResponse = (response) => {
     const result = response.addresses[0];
@@ -32,7 +30,6 @@ const Directions = ({ positionState, setPositionState }) => {
   }
 
   const getDestinationCoords = async () => {
-    console.log('destAddress', destAddress)
    const val = await tt.services.geocode({
       key: 'lhdNJtemDRfjctoDTw5DqAYs2qr9uloY',
       bestResult: true,
@@ -50,9 +47,6 @@ const Directions = ({ positionState, setPositionState }) => {
     await getDestinationCoords();
     const { longitude, latitude } = positionState.coords;
     const { lng, lat } = destCoords;
-    //console.log(positionState.coordsGeolocationCoordinates)
-    console.log('destcoords in getRoute', destCoords)
-    //console.log('original long lat', longitude, latitude)
     const locations = `${longitude},${latitude}:${lng},${lat}`
 
     const { routes } = await tt.services.calculateRoute({
@@ -99,9 +93,14 @@ const Directions = ({ positionState, setPositionState }) => {
 
   return (
     <div id="directions-container">
-      <input type="text" value={destAddress} onChange={(ev) => setDestAddress(ev.target.value)} />
-      <input type="button" onClick={() => getRoute()} />
+      <input
+        type="text" placeholder="destination" value={destAddress}
+        onChange={(ev) => setDestAddress(ev.target.value)}
+      />
+      <button type="button" onClick={() => getRoute()}>Get Directions</button>
+      <button type="button" onClick={() => setDirections([])}>Clear</button>
       <div id="directions">
+        {directions.length === 0 && <img src="../assets/ladybug.jpg" />}
         <ul>
           {directions.map(dir => {
             return (

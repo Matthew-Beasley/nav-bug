@@ -81,10 +81,47 @@ body {
   font-size: 1rem;
 }
 
-input {
-  border: 1px solid black;
+#directions-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color: rgb(184, 241, 177);
+  min-height: 812px;
 }
 
-#test {
-  height: 10rem;
+#directions-container input {
+  border: 1px solid black;
+  height: 2rem;
+  width: 95%;
+  margin: 1rem 0rem 0rem 0rem;
+  font-size: 1.7rem;
 }
+
+#directions-container button {
+  background-color: lightgray;
+  height: 2rem;
+  width: 70%;
+  margin: 1rem 0rem 0rem 0rem;
+  font-size: 1.7rem;
+}
+
+#directions-container ul {
+  list-style-type: none;
+  padding: 0;
+  margin: .75rem;
+  background-color: white;
+}
+
+#directions-container li {
+  margin: .5rem;
+}
+
+#directions-container img {
+  height: 500px;
+  margin: 3rem 0rem 3rem 0rem;
+}
+
+
