@@ -3,8 +3,9 @@ import tt, { services } from '@tomtom-international/web-sdk-services';
 import { getCoords } from '../Utilities';
 
 const Directions = ({ positionState, setPositionState }) => {
-  const [sourceAddress, setSourceAddress] = useState('');
+  const [destAddress, setDestAddress] = useState('');
   const [startAddress, setStartAddress] = useState();
+  const [directions, setDirections] = useState([]);
   let destCoords;
 
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -31,10 +32,11 @@ const Directions = ({ positionState, setPositionState }) => {
   }
 
   const getDestinationCoords = async () => {
+    console.log('destAddress', destAddress)
    const val = await tt.services.geocode({
       key: 'lhdNJtemDRfjctoDTw5DqAYs2qr9uloY',
       bestResult: true,
-      query: '11025 24th ne seattle, wa'//startAddress
+      query: destAddress
       })
       .go()
       .then(result => {
@@ -61,7 +63,7 @@ const Directions = ({ positionState, setPositionState }) => {
 
     const routesDirections = routes.map(route => {
       const { instructions } = route.guidance
-      return instructions.map(i => {
+      setDirections(instructions.map(i => {
         let result = ''
 
         // eslint-disable-next-line default-case
@@ -79,9 +81,8 @@ const Directions = ({ positionState, setPositionState }) => {
             break;
         }
         result += i.message.replace('waypoint', 'pickup area')
-        console.log(result)
         return result
-      })
+      }))
     })
   }
 
@@ -98,9 +99,17 @@ const Directions = ({ positionState, setPositionState }) => {
 
   return (
     <div id="directions-container">
-      <input value={sourceAddress} onChange={ev => setSourceAddress(ev.target)} />
+      <input type="text" value={destAddress} onChange={(ev) => setDestAddress(ev.target.value)} />
       <input type="button" onClick={() => getRoute()} />
-      <div id="test">I'm here</div>
+      <div id="directions">
+        <ul>
+          {directions.map(dir => {
+            return (
+              <li key={dir}>{dir}</li>
+            )
+          })}
+        </ul>
+      </div>
     </div>
   )
 }
