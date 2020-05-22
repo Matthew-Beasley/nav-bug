@@ -90,6 +90,7 @@ body {
   font-weight: bold;
   background-color: rgb(184, 241, 177);
   min-height: 812px;
+  min-width: 100%;
 }
 
 #directions-container input {
