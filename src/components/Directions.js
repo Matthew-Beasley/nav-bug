@@ -47,7 +47,8 @@ const Directions = ({ positionState, setPositionState }) => {
     await getDestinationCoords();
     const { longitude, latitude } = positionState.coords;
     const { lng, lat } = destCoords;
-    const locations = `${longitude},${latitude}:${lng},${lat}`
+    const locations = `${longitude},${latitude}:${lng},${lat}`;
+    setDestAddress('');
 
     const { routes } = await tt.services.calculateRoute({
       locations,
@@ -102,9 +103,9 @@ const Directions = ({ positionState, setPositionState }) => {
       <div id="directions">
         {directions.length === 0 && <img src="../assets/ladybug.jpg" />}
         <ul>
-          {directions.map(dir => {
+          {directions.map((dir, idx) => {
             return (
-              <li key={dir}>{dir}</li>
+              <li key={idx}>{dir}</li>
             )
           })}
         </ul>

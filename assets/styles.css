@@ -95,18 +95,21 @@ body {
 
 #directions-container input {
   border: 1px solid black;
-  height: 2rem;
+  height: 3rem;
   width: 95%;
   margin: 1rem 0rem 0rem 0rem;
-  font-size: 1.7rem;
+  font-size: 2rem;
+  line-height: 3rem;
 }
 
 #directions-container button {
   background-color: lightgray;
-  height: 2rem;
+  height: 3rem;
   width: 70%;
-  margin: 1rem 0rem 0rem 0rem;
-  font-size: 1.7rem;
+  margin: 2rem 0rem 0rem 0rem;
+  font-size: 2rem;
+  line-height: 3rem;
+  border-radius: 15px;
 }
 
 #directions-container ul {
@@ -121,8 +124,9 @@ body {
 }
 
 #directions-container img {
-  height: 500px;
+  height: 30%;
   margin: 3rem 0rem 3rem 0rem;
+  width: 100%;
 }
 
 
